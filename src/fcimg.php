@@ -21,6 +21,9 @@ class FCImageException extends Exception
  *          'height' => height in pixels
  *          'nodelay' => Don't wait for animation to complete (this will speed up script but might cause it to not work)
  *          'quality' => quality from 1 to 100
+ *          'wkhtmltoimage_path' => alternative wkhtmltoimage_path
+ *          'licensed_fusioncharts_js' => Path to licensed fusioncharts.js
+ *          'licensed_fusioncharts_charts_js' => Path to licensed fusioncharts.charts.js
  * )
  * @throws FCImageException
  * @return bool True if success, false if failure. TODO: Log stderr so users can properly submit bug reports.
@@ -146,7 +149,6 @@ function fusioncharts_to_image($outputFilePath, $swfName, $inputString, $height,
         </style>
         <script>
 TOP;
-
     // ok. write template.txt into the process stdin
     fwrite($wkstdin, $templateHead);
 
@@ -155,13 +157,27 @@ TOP;
         fwrite($debugFile, $templateHead);
     }
 
-    // ok. write template.txt into the process stdin
-    fwrite($wkstdin, file_get_contents("$fcRoot/template.txt"));
+    if(isset($options['licensed_fusioncharts_charts_js']) && isset($options['licensed_fusioncharts_js'])) {
 
-    if($debugFlag)
-    {
-        fwrite($debugFile, file_get_contents("$fcRoot/template.txt"));
     }
+    else {
+
+    // ok. write template.txt into the process stdin
+        fwrite($wkstdin, file_get_contents($options['licensed_fusioncharts_js']);
+
+        if($debugFlag)
+        {
+            fwrite($debugFile, file_get_contents($options['licensed_fusioncharts_js']);
+        }
+
+        fwrite($wkstdin, file_get_contents($options['licensed_fusioncharts_charts_js']);
+
+        if($debugFlag)
+        {
+            fwrite($debugFile, file_get_contents($options['licensed_fusioncharts_charts_js']);
+        }
+    }
+
 
     $functionToCall = "setXMLData";
     if($jsonFlag === true)
