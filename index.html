@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Fcimg by fcimg</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Fcimg</h1>
+        <h2>FusionCharts to Image Converter</h2>
+        <a href="https://github.com/fcimg/fcimg" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="fcimg---fusioncharts-to-image" class="anchor" href="#fcimg---fusioncharts-to-image"><span class="octicon octicon-link"></span></a>FCImg - FusionCharts to Image</h1>
+
+<p>FCImg is a third party tool to allow servers running the LAMP stack to export FusionCharts Charts as images without a need for a browser. The download includes a copy of the FusionCharts evaluation version.</p>
+
+<p><strong>Please note that you still need to purchase a license of FusionCharts. FCImg only enables server-side export.</strong></p>
+
+<h3>
+<a name="requirements-and-installation" class="anchor" href="#requirements-and-installation"><span class="octicon octicon-link"></span></a>Requirements and Installation:</h3>
+
+<p>Download the appropriate package for your platform and extract it in a path that your PHP Scripts can read. Currently, only PHP 5.2 or above is supported. Shared hosts are supported as long as <code>safe_mode</code> is not emabled. (Enabling <code>safe_mode</code> is not recommended and most hosts turn this off).</p>
+
+<p>Also, this package supports only licensed versions of FusionCharts 3.4 and above.</p>
+
+<h3>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage:</h3>
+
+<p>Before you proceed with using FCImg, you need to download wkhtmltoimage - a package that's used to generate the images. <strong>You need to manually download and install wkhtmltoimage and it's not included with your fcimg download</strong>. <a href="http://wkhtmltopdf.org/downloads.html">Download wkhtmltoimage here</a></p>
+
+<p>First, require fcimg.php from your PHP script. Now call the fusioncharts_to_image function, with the following arguments in this order:</p>
+
+<ul>
+<li>
+<code>outputFilePath</code>: The full path to the output image. If this file already exists, it will be overwritten.</li>
+<li>
+<code>swfName</code>: The FusionCharts SWF filename which will be used to determine which type of chart to render.</li>
+<li>
+<code>inputString</code>: The Data String in XML or JSON format. Note that the converter will automatically determine whether the input is XML or JSON.</li>
+<li>
+<code>height</code>: The height of the chart in pixels</li>
+<li>
+<code>width</code>: The width of the chart in pixels</li>
+<li>
+<code>options</code>: This is an array to configure optional parameters. This is treated as a key-value set.</li>
+<li>
+<code>$options["imageType"]</code>: Specifies the type of the image (png/jpg). Default: png.</li>
+<li>
+<code>$options["quality"]</code>: The Image quality (0-100). Note that a higher quality might take longer to render. Default: 70.</li>
+<li>
+<code>$options["wkhtmltoimage_path"]</code>: You can override the path to wkhtmltoimage to an absolute path where the binary is present in your system</li>
+<li>
+<code>$options["licensed_fusioncharts_js"]</code>: to use a licensed version of fusioncharts, specify the path of <code>fusioncharts.js</code> available in the FusionCharts 3.4 download. This should be physical path on your hard disk.</li>
+<li>
+<code>$options["licensed_fusioncharts_charts_js"]</code>: to use a licensed version of fusioncharts, specify the path of <code>fusioncharts.charts.js</code> available in the FusionCharts 3.4 download. This should be physical path on your hard disk.</li>
+</ul><pre><code>require "fcimg/fcimg.php";
+fusioncharts_to_image (
+    "/var/www/report.png",           // path to image
+    "Column3D.swf",                  // SWF Name. SWF File not required
+    $inputString,                    // the input XML String
+    400, 500,                        // height and width
+    array(                           // options
+        'imageType' =&gt; 'jpg',        // OPTIONAL: set image type as JPG
+        'quality' =&gt; 75              // OPTIONAL: increase Quality
+        'wkhtmltoimage_path' =&gt; "D:\Program Files\wkhtmltox\bin\wkhtmltoimage.exe" // OPTIONAL: alternative wkhtmltoimage_path
+        'licensed_fusioncharts_js' =&gt; "C:\fusioncharts\fusioncharts.js", // OPTIONAL: Path to licensed fusioncharts.js
+        'licensed_fusioncharts_charts_js' =&gt; "C:\fusioncharts\fusioncharts.charts.js", // OPTIONAL: Path to licensed fusioncharts.charts.js
+    )
+);
+</code></pre>
+
+<h3>
+<a name="notes" class="anchor" href="#notes"><span class="octicon octicon-link"></span></a>Notes:</h3>
+
+<ul>
+<li>The conversion engine waits 1 second before capturing the state of the chart. In the event that the animation hasn't completed, the result of the chart might not be appropriate. By disabling animation, you can ensure that the exporter provides optimum results.</li>
+<li>The conversion process takes upto 2-3 seconds on an average server. The call to fusioncharts_to_image blocks the thread. Thus it is highly not recommended to use this function inside a script that serves web pages.</li>
+<li>Instead, this is ideal for background scripts that generates reports, where there won't be concurrent calls to the exporter, and situations where the render time won't introduce latency</li>
+<li>If you're using a licensed version of FusionCharts you need to supply paths to both files: <code>fusioncharts.js</code> and <code>fusioncharts.charts.js</code>
+</li>
+</ul>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/fcimg/fcimg/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/fcimg/fcimg/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/fcimg/fcimg"></a> is maintained by <a href="https://github.com/fcimg">fcimg</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
