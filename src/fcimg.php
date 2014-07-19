@@ -118,7 +118,7 @@ function fusioncharts_to_image($outputFilePath, $swfName, $inputString, $height,
     $fcRoot = dirname(__FILE__);
 
     $wkCommand = $platform;
-    $command = "$fcRoot/bin/$wkCommand $args - $imageFileName";
+    $command = "$wkCommand $args - $imageFileName";
 
     if($debugFlag)
     {
@@ -131,6 +131,28 @@ function fusioncharts_to_image($outputFilePath, $swfName, $inputString, $height,
     if(!is_resource($wkstdin))
     {
         throw new FCImageException("An error took place while trying to open wkhtmltopdf");
+    }
+
+    $templateHead = <<<TOP
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title></title>
+        <style>
+            body{
+                padding:0 0 0 0;
+                margin:0 0 0 0;
+            }
+        </style>
+        <script>
+TOP;
+
+    // ok. write template.txt into the process stdin
+    fwrite($wkstdin, $templateHead);
+
+    if($debugFlag)
+    {
+        fwrite($debugFile, $templateHead);
     }
 
     // ok. write template.txt into the process stdin
@@ -150,17 +172,17 @@ function fusioncharts_to_image($outputFilePath, $swfName, $inputString, $height,
     $escapedData = addslashes($escapedData);
 
     $templateCode = <<<BOTTOM
-$(function(){
-FusionCharts.setCurrentRenderer('javascript');
-var chart = new FusionCharts("$swfName", 'chart0', "$width", "$height", "0", "1");
-chart.$functionToCall("$escapedData");
-chart.render("chartContainer");
-});
 </script>
 </head>
 <body>
 <div id="chartContainer"><small>Loading chart...</small></div>
 </body>
+<script>
+FusionCharts.setCurrentRenderer('javascript');
+var chart = new FusionCharts("$swfName", 'chart0', "$width", "$height", "0", "1");
+chart.$functionToCall("$escapedData");
+chart.render("chartContainer");
+</script>
 </html>
 BOTTOM;
     fwrite($wkstdin, $templateCode);
