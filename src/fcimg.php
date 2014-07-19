@@ -121,6 +121,10 @@ function fusioncharts_to_image($outputFilePath, $swfName, $inputString, $height,
     $fcRoot = dirname(__FILE__);
 
     $wkCommand = $platform;
+
+    if(isset($options['wkhtmltoimage_path'])) {
+        $wkCommand = $options['wkhtmltoimage_path'];
+    }
     $command = "$wkCommand $args - $imageFileName";
 
     if($debugFlag)
