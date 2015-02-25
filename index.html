@@ -64,9 +64,9 @@
 <code>options</code>: This is an array to configure extra parameters. This is treated as a key-value set. However, 2 parameters are mandatory: <code>licensed_fusioncharts_js</code> and <code>licensed_fusioncharts_charts_js</code>
 </li>
 <li>
-<code>$options["licensed_fusioncharts_js"]</code>: to use a licensed version of fusioncharts, specify the path of <code>fusioncharts.js</code> available in the FusionCharts 3.4 download. This should be physical path on your hard disk.</li>
+<code>$options["licensed_fusioncharts_js"]</code>: (<strong>is mandatory</strong>) specify the path of <code>fusioncharts.js</code> available in the FusionCharts 3.4 download. This should be physical path on your hard disk.</li>
 <li>
-<code>$options["licensed_fusioncharts_charts_js"]</code>: to use a licensed version of fusioncharts, specify the path of <code>fusioncharts.charts.js</code> available in the FusionCharts 3.4 download. This should be physical path on your hard disk.</li>
+<code>$options["licensed_fusioncharts_charts_js"]</code>: (<strong>is mandatory</strong>) specify the path of <code>fusioncharts.charts.js</code> available in the FusionCharts 3.4 download. This should be physical path on your hard disk.</li>
 <li>
 <code>$options["imageType"]</code>: Specifies the type of the image (png/jpg). Default: png.</li>
 <li>
@@ -82,11 +82,11 @@ fusioncharts_to_image (
     $inputString,                    // the input XML String
     400, 500,                        // height and width
     array(                           // options
+        'licensed_fusioncharts_js' =&gt; "C:\fusioncharts\fusioncharts.js", // REQUIRED: Path to licensed fusioncharts.js
+        'licensed_fusioncharts_charts_js' =&gt; "C:\fusioncharts\fusioncharts.charts.js", // REQUIRED: Path to licensed fusioncharts.charts.js
         'imageType' =&gt; 'jpg',        // OPTIONAL: set image type as JPG
         'quality' =&gt; 75              // OPTIONAL: increase Quality
         'wkhtmltoimage_path' =&gt; "D:\Program Files\wkhtmltox\bin\wkhtmltoimage.exe" // OPTIONAL: alternative wkhtmltoimage_path
-        'licensed_fusioncharts_js' =&gt; "C:\fusioncharts\fusioncharts.js", // OPTIONAL: Path to licensed fusioncharts.js
-        'licensed_fusioncharts_charts_js' =&gt; "C:\fusioncharts\fusioncharts.charts.js", // OPTIONAL: Path to licensed fusioncharts.charts.js
     )
 );
 </code></pre>
