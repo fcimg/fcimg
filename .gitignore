@@ -1,3 +1,4 @@
 template.txt
 test/out/*
 build/*
+vendor/*

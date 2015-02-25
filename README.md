@@ -22,12 +22,12 @@ First, require fcimg.php from your PHP script. Now call the fusioncharts_to_imag
 * `inputString`: The Data String in XML or JSON format. Note that the converter will automatically determine whether the input is XML or JSON.
 * `height`: The height of the chart in pixels
 * `width`: The width of the chart in pixels
-* `options`: This is an array to configure optional parameters. This is treated as a key-value set.
-* `$options["imageType"]`: Specifies the type of the image (png/jpg). Default: png.
-* `$options["quality"]`: The Image quality (0-100). Note that a higher quality might take longer to render. Default: 70.
-* `$options["wkhtmltoimage_path"]`: You can override the path to wkhtmltoimage to an absolute path where the binary is present in your system
+* `options`: This is an array to configure extra parameters. This is treated as a key-value set. However, 2 parameters are mandatory: `licensed_fusioncharts_js` and `licensed_fusioncharts_charts_js`
 * `$options["licensed_fusioncharts_js"]`: to use a licensed version of fusioncharts, specify the path of `fusioncharts.js` available in the FusionCharts 3.4 download. This should be physical path on your hard disk.
 * `$options["licensed_fusioncharts_charts_js"]`: to use a licensed version of fusioncharts, specify the path of `fusioncharts.charts.js` available in the FusionCharts 3.4 download. This should be physical path on your hard disk.
+* `$options["imageType"]`: Specifies the type of the image (png/jpg). Default: png.
+* `$options["quality"]`: The Image quality (0-100). Note that a higher quality might take longer to render. Default: 70.
+* `$options["wkhtmltoimage_path"]`: You can override the path to wkhtmltoimage to an absolute path where the binary is present in your system. Otherwise we try to auto detect the path
 
 ```
 require "fcimg/fcimg.php";

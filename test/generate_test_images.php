@@ -34,7 +34,10 @@ for ($i = 0; $i < (count($rawdata) -1) / 2; $i ++)
     $xmlData = str_replace("\r", "", $xmlData);
 
     fusioncharts_to_image (__DIR__."/out/$dataName.png", $swfName, $xmlData, 400, 560,
-        array('debug' => true));
+        array('debug' => true,
+            'licensed_fusioncharts_js' => "../vendor/fusioncharts.js",
+            'licensed_fusioncharts_charts_js' => "../vendor/fusioncharts.charts.js")
+        );
     
     $escaped_xml = addslashes($xmlData);
     $entry = <<<DATAENTRY

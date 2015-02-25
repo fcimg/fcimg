@@ -163,23 +163,22 @@ TOP;
 
     if(isset($options['licensed_fusioncharts_charts_js']) && isset($options['licensed_fusioncharts_js'])) {
 
+        fwrite($wkstdin, file_get_contents($options['licensed_fusioncharts_js']));
+
+        if($debugFlag)
+        {
+            fwrite($debugFile, file_get_contents($options['licensed_fusioncharts_js']));
+        }
+
+        fwrite($wkstdin, file_get_contents($options['licensed_fusioncharts_charts_js']));
+
+        if($debugFlag)
+        {
+            fwrite($debugFile, file_get_contents($options['licensed_fusioncharts_charts_js']));
+        }
     }
     else {
-
-    // ok. write template.txt into the process stdin
-        fwrite($wkstdin, file_get_contents($options['licensed_fusioncharts_js']);
-
-        if($debugFlag)
-        {
-            fwrite($debugFile, file_get_contents($options['licensed_fusioncharts_js']);
-        }
-
-        fwrite($wkstdin, file_get_contents($options['licensed_fusioncharts_charts_js']);
-
-        if($debugFlag)
-        {
-            fwrite($debugFile, file_get_contents($options['licensed_fusioncharts_charts_js']);
-        }
+        throw new FCImageException("Need to provide fusioncharts licensed version here");
     }
 
 
