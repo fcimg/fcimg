@@ -48,6 +48,10 @@ function fusioncharts_to_image($outputFilePath, $swfName, $inputString, $height,
     $fileType = "png";
     if(isset($options['imageType']))
         $fileType = $options['imageType'];
+    
+    $renderDelay = 1000;
+    if (isset($options['render_delay']) && is_numeric($options['render_delay']))
+        $renderDelay = $options['render_delay'];
 
     /*
      * Note: sys_get_temp_dir returns /tmp on Linux (don't know about osx)
@@ -77,7 +81,7 @@ function fusioncharts_to_image($outputFilePath, $swfName, $inputString, $height,
     }
     else
     {
-        $args = $args." --javascript-delay 1000";
+        $args = $args." --javascript-delay {$renderDelay}";
     }
 
 
