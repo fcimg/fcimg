@@ -27,6 +27,7 @@ First, require fcimg.php from your PHP script. Now call the fusioncharts_to_imag
 * `$options["licensed_fusioncharts_charts_js"]`: (**is mandatory**) specify the path of `fusioncharts.charts.js` available in the FusionCharts 3.4 download. This should be physical path on your hard disk.
 * `$options["imageType"]`: Specifies the type of the image (png/jpg). Default: png.
 * `$options["quality"]`: The Image quality (0-100). Note that a higher quality might take longer to render. Default: 70.
+* `$options["render_delay"]`: Specifies the render delay in milliseconds that will allow browser to completely render charts before script will take image of them. Default: 1000;
 * `$options["wkhtmltoimage_path"]`: You can override the path to wkhtmltoimage to an absolute path where the binary is present in your system. Otherwise we try to auto detect the path
 
 ```
@@ -41,6 +42,7 @@ fusioncharts_to_image (
         'licensed_fusioncharts_charts_js' => "C:\fusioncharts\fusioncharts.charts.js", // REQUIRED: Path to licensed fusioncharts.charts.js
         'imageType' => 'jpg',        // OPTIONAL: set image type as JPG
         'quality' => 75              // OPTIONAL: increase Quality
+        'render_delay' => 2000       // OPTIONAL: increase render delay
         'wkhtmltoimage_path' => "D:\Program Files\wkhtmltox\bin\wkhtmltoimage.exe" // OPTIONAL: alternative wkhtmltoimage_path
     )
 );
